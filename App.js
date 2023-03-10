@@ -6,15 +6,13 @@ import bodyParser from "body-parser";
 import cors from "cors";
 
 
-dotenv.config();
-
 // CRATING AN EXPRESS APP
-
 const app=express();
-app.use(router);
+dotenv.config();
+app.use(cors());
 app.use(bodyParser.json({extended:true}));
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(cors());
+app.use(router);
 const port=process.env.PORT;
 
 // CRATONG A SERVER
