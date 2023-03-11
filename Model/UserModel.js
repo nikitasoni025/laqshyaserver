@@ -6,13 +6,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    uid: {
+        type: String,
+        required: true,
+        unique:true
+    },
     email: {
         type: String,
         required: true,
         unique: true
     },
     phonenumber: {
-        type: Number,
+        type: String,
         required: true,
         unique: true
     },
@@ -24,10 +29,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    status: {
+        type: Boolean,
+        required: true,
+        default:false
+    },
     password: {
         type: String,
         required: true,
     }
+   
 
 })
 
