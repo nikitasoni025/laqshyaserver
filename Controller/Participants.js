@@ -13,15 +13,15 @@ export const register = async (req, res) => {
     const { fullname, email, phonenumber, institution, standard, password } = req.body;
 
 
-    if (!fullname || !email || !phonenumber || !institution || !standard || !password) {   
+    if (!fullname || !email || !phonenumber || !institution || !standard || !password) {
 
-        return res.status(400).json({ msg: "fill all the required fields" });     
+        return res.status(400).json({ msg: "fill all the required fields" });
     }
 
     try {
         const preuser = await users.findOne({ email: email });
         if (preuser) {
-          return  res.status(400).json({ msg: "User is Already present" });
+            return res.status(400).json({ msg: "User is Already present" });
         }
         else {
 
@@ -29,7 +29,7 @@ export const register = async (req, res) => {
             const uid = "LAQ" + Math.random().toString(36).substring(2, 6)
             console.log(uid);
             const adduser = new users({
-                fullname,phonenumber, uid, email, password: hashedpassword, institution, standard,
+                fullname, phonenumber, uid, email, password: hashedpassword, institution, standard,
             });
 
             adduser.save().then(() => {
@@ -49,14 +49,14 @@ export const register = async (req, res) => {
 
                 };
 
-                transporter.sendMail(mailOptions,(error,info)=>{
-                    if(error){
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
                         console.log(error);
-                        return res.status(500).json({msg:"Email not sent"});
+                        return res.status(500).json({ msg: "Email not sent" });
                     }
-                    else{
+                    else {
                         console.log(`Email sent` + info);
-                        return res.status(200).json({msg:"Registration Successfull"});
+                        return res.status(200).json({ msg: "Registration Successfull" });
                     }
                 });
 
@@ -66,7 +66,7 @@ export const register = async (req, res) => {
     } catch (error) {
 
         console.log(error.message);
-        return res.status(400).json({msg:"Registration Failed"});
+        return res.status(400).json({ msg: "Registration Failed" });
 
     }
 
