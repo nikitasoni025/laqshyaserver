@@ -37,7 +37,7 @@ export const register = async (req, res) => {
                     service: "gmail",
                     auth: {
                         user: "animeshverma161@gmail.com",
-                        pass: "Av701049300",
+                        pass: "wpxxyrozsppusfjq",
                     },
                 });
                 const mailOptions = {
