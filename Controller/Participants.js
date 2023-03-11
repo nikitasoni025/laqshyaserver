@@ -29,7 +29,7 @@ export const register = async (req, res) => {
             const uid = "LAQ" + Math.random().toString(36).substring(2, 6)
             console.log(uid);
             const adduser = new users({
-                fullname, uid, email, password: hashedpassword, institution, standard,
+                fullname,phonenumber, uid, email, password: hashedpassword, institution, standard,
             });
 
             adduser.save().then(() => {
