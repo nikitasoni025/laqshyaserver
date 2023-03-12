@@ -1,6 +1,11 @@
 import users from "../Model/UserModel.js";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import tokens from "../Model/TokenModel.js";
+
+dotenv.config();
 
 
 
@@ -27,7 +32,6 @@ export const register = async (req, res) => {
 
             const hashedpassword = await bcrypt.hash(password, 10);
             const uid = "LAQ" + Math.random().toString(36).substring(2, 6)
-            console.log(uid);
             const adduser = new users({
                 fullname, phonenumber, uid, email, password: hashedpassword, institution, standard,
             });
@@ -69,5 +73,43 @@ export const register = async (req, res) => {
         return res.status(400).json({ msg: "Registration Failed" });
 
     }
+
+}
+
+
+
+export const userSignin=async(req,res)=>{
+    const {email,password}=req.body;
+
+    const user=await users.findOne({email:email});
+    console.log(user);
+
+    if(!user){
+        return res.status(400).json({mag:"User Not Found"});
+    }
+
+    try {
+        const match= await bcrypt.compare(password,user.password);
+
+        if(match){
+            console.log("matched");
+            const accessToken=jwt.sign(user.toJSON(),process.env.ACCESS_TOKEN_KEY,{expiresIn:"15m"});
+            const refreshToken=jwt.sign(user.toJSON(),process.env.REFRESH_TOKEN_KEY);
+
+            const addToken=new tokens({token:refreshToken});
+
+            await addToken.save();
+
+            return res.status(200).json({accessToken:accessToken,refreshToken:refreshToken,data:{name:user.name,email:user.email}});
+        }else{
+            return res.status(400).json({msg:"Password Did not Matched !!"});
+        }
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({msg:"Signin Failed !!"});
+        
+    }
+
 
 }
