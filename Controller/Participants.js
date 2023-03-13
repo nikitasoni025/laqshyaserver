@@ -113,3 +113,16 @@ export const userSignin=async(req,res)=>{
 
 
 }
+
+
+
+export const fetchParticipants=async(req,res)=>{
+    try {
+        const participants = await users.find();
+        return res.status(200).json(participants)
+        
+    } catch (error) {
+        return res.status(400).json({msg:error.message});
+    }
+
+}
