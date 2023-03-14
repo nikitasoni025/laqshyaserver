@@ -4,7 +4,8 @@ import nodemailer from "nodemailer";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import tokens from "../Model/TokenModel.js";
-import validateUsers from "../Validation/Uservalidation.js";
+import userValidationSchema from "../Validation/Uservalidation.js";
+// import validateUsers from "../Validation/Uservalidation.js";
 
 dotenv.config();
 
@@ -18,19 +19,20 @@ export const register = async (req, res) => {
 
     const { fullname, email, phonenumber, institution, standard, password } = req.body;
 
-    const validatedata = { fullname, email, phonenumber, password };
-    const isValid = validateUsers(validatedata);
-    if (!isValid) {
-        const error = validateUsers.errors;
-        return res.status(400).json({msg:"Validation Error", valerror:error})
+    const validatedata={fullname,email,phonenumber,password,institution,standard};
+    const {error,value}=userValidationSchema.validate(validatedata);
+
+    if(error){
+        const errors=error.details.map((detail)=>detail.message);
+        return res.status(400).json({msg:"Validation Error !!",valerror:errors})
     }
 
 
 
-    if (!fullname || !email || !phonenumber || !institution || !standard || !password) {
+    // if (!fullname || !email || !phonenumber || !institution || !standard || !password) {
 
-        return res.status(400).json({ msg: "fill all the required fields" });
-    }
+    //     return res.status(400).json({ msg: "fill all the required fields" });
+    // }
 
     try {
         const preuser = await users.findOne({ email: email });
