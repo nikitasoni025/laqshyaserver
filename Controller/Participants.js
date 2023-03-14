@@ -4,6 +4,7 @@ import nodemailer from "nodemailer";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import tokens from "../Model/TokenModel.js";
+import validateUsers from "../Validation/Uservalidation.js";
 
 dotenv.config();
 
@@ -16,6 +17,14 @@ export const register = async (req, res) => {
 
 
     const { fullname, email, phonenumber, institution, standard, password } = req.body;
+
+    const validatedata = { fullname, email, phonenumber, password };
+    const isValid = validateUsers(validatedata);
+    if (!isValid) {
+        const error = validateUsers.errors;
+        return res.status(400).json({msg:"Validation Error", valerror:error})
+    }
+
 
 
     if (!fullname || !email || !phonenumber || !institution || !standard || !password) {
@@ -78,37 +87,37 @@ export const register = async (req, res) => {
 
 
 
-export const userSignin=async(req,res)=>{
-    const {email,password}=req.body;
+export const userSignin = async (req, res) => {
+    const { email, password } = req.body;
 
-    const user=await users.findOne({email:email});
+    const user = await users.findOne({ email: email });
     console.log(user);
 
-    if(!user){
-        return res.status(400).json({mag:"User Not Found"});
+    if (!user) {
+        return res.status(400).json({ mag: "User Not Found" });
     }
 
     try {
-        const match= await bcrypt.compare(password,user.password);
+        const match = await bcrypt.compare(password, user.password);
 
-        if(match){
+        if (match) {
             console.log("matched");
-            const accessToken=jwt.sign(user.toJSON(),process.env.ACCESS_TOKEN_KEY,{expiresIn:"15m"});
-            const refreshToken=jwt.sign(user.toJSON(),process.env.REFRESH_TOKEN_KEY);
+            const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_KEY, { expiresIn: "15m" });
+            const refreshToken = jwt.sign(user.toJSON(), process.env.REFRESH_TOKEN_KEY);
 
-            const addToken=new tokens({token:refreshToken});
+            const addToken = new tokens({ token: refreshToken });
 
             await addToken.save();
 
-            return res.status(200).json({accessToken:accessToken,refreshToken:refreshToken,data:{name:user.name,email:user.email}});
-        }else{
-            return res.status(400).json({msg:"Password Did not Matched !!"});
+            return res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken, data: { name: user.name, email: user.email } });
+        } else {
+            return res.status(400).json({ msg: "Password Did not Matched !!" });
         }
-        
+
     } catch (error) {
         console.log(error);
-        return res.status(400).json({msg:"Signin Failed !!"});
-        
+        return res.status(400).json({ msg: "Signin Failed !!" });
+
     }
 
 
@@ -116,13 +125,13 @@ export const userSignin=async(req,res)=>{
 
 
 
-export const fetchParticipants=async(req,res)=>{
+export const fetchParticipants = async (req, res) => {
     try {
         const participants = await users.find();
         return res.status(200).json(participants)
-        
+
     } catch (error) {
-        return res.status(400).json({msg:error.message});
+        return res.status(400).json({ msg: error.message });
     }
 
 }
