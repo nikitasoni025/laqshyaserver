@@ -137,3 +137,10 @@ export const fetchParticipants = async (req, res) => {
     }
 
 }
+
+
+
+export const fetchParticipantsWithEmail=async (req,res)=>{
+    console.log(req.body);
+
+}
