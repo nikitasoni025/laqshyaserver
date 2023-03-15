@@ -128,9 +128,19 @@ export const userSignin = async (req, res) => {
 
 
 export const fetchParticipants = async (req, res) => {
+    let email=req.query.email;
+    console.log(email);
+    let participants;
     try {
-        const participants = await users.find();
-        return res.status(200).json(participants)
+        if(email){
+            console.log("yes got email");
+            participants=await users.find({email:{$regex:`^${email}`}});
+            
+        }else{
+            participants = await users.find();
+        }
+        console.log(participants);
+        return res.status(200).json(participants);
 
     } catch (error) {
         return res.status(400).json({ msg: error.message });
