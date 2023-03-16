@@ -27,13 +27,6 @@ export const register = async (req, res) => {
         return res.status(400).json({msg:"Validation Error !!",valerror:errors})
     }
 
-
-
-    // if (!fullname || !email || !phonenumber || !institution || !standard || !password) {
-
-    //     return res.status(400).json({ msg: "fill all the required fields" });
-    // }
-
     try {
         const preuser = await users.findOne({ email: email });
         if (preuser) {
@@ -111,7 +104,7 @@ export const userSignin = async (req, res) => {
 
             await addToken.save();
 
-            return res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken, data: { name: user.name, email: user.email } });
+            return res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken, data: {id:user._id, name: user.fullname, email: user.email,phonenumber:user.phonenumber,institution:user.institution,standard:user.standard}});
         } else {
             return res.status(400).json({ msg: "Password Did not Matched !!" });
         }
