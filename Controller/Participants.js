@@ -100,7 +100,7 @@ export const userSignin = async (req, res) => {
             const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_KEY, { expiresIn:"15m"});
             const refreshToken = jwt.sign(user.toJSON(), process.env.REFRESH_TOKEN_KEY);
 
-            const addToken = new tokens({ token: refreshToken });
+            const addToken = new  tokens({ token: refreshToken });
 
             await addToken.save();
 
