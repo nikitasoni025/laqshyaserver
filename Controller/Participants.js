@@ -25,7 +25,7 @@ export const register = async (req, res) => {
     if(error){
         const errors=error.details.map((detail)=>detail.message);
         return res.status(400).json({msg:"Validation Error !!",valerror:errors})
-    }
+     }
 
     try {
         const preuser = await users.findOne({ email: email });
