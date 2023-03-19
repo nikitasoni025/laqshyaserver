@@ -1,6 +1,6 @@
 import express  from "express";
 import { individualRegister } from "../Controller/Individuals.js";
-import { fetchParticipants, fetchParticipantsWithEmail, register, userSignin } from "../Controller/Participants.js";
+import { fetchParticipants, fetchParticipantsWithId, register, userSignin } from "../Controller/Participants.js";
 // import { payment } from "../Controller/Payment.js";
 
 const router=express.Router();
@@ -12,7 +12,7 @@ router.post("/register",register);
 router.post("/signin",userSignin);
 router.post('/indi/regist',individualRegister)
 router.get("/participants",fetchParticipants);
-router.get('/search/participant',fetchParticipantsWithEmail)
+router.get('/partwid',fetchParticipantsWithId);
 
 // Payemnt API Routes
 

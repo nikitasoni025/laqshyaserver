@@ -19,13 +19,13 @@ export const register = async (req, res) => {
 
     const { fullname, email, phonenumber, institution, standard, password } = req.body;
 
-    const validatedata={fullname,email,phonenumber,password,institution,standard};
-    const {error,value}=userValidationSchema.validate(validatedata);
+    const validatedata = { fullname, email, phonenumber, password, institution, standard };
+    const { error, value } = userValidationSchema.validate(validatedata);
 
-    if(error){
-        const errors=error.details.map((detail)=>detail.message);
-        return res.status(400).json({msg:"Validation Error !!",valerror:errors})
-     }
+    if (error) {
+        const errors = error.details.map((detail) => detail.message);
+        return res.status(400).json({ msg: "Validation Error !!", valerror: errors })
+    }
 
     try {
         const preuser = await users.findOne({ email: email });
@@ -97,14 +97,14 @@ export const userSignin = async (req, res) => {
 
         if (match) {
             console.log("matched");
-            const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_KEY, { expiresIn:"15m"});
+            const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_KEY, { expiresIn: "15m" });
             const refreshToken = jwt.sign(user.toJSON(), process.env.REFRESH_TOKEN_KEY);
 
-            const addToken = new  tokens({ token: refreshToken });
+            const addToken = new tokens({ token: refreshToken });
 
             await addToken.save();
 
-            return res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken, data: {id:user._id, name: user.fullname, email: user.email,phonenumber:user.phonenumber,institution:user.institution,standard:user.standard}});
+            return res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken, data: { id: user._id, name: user.fullname, email: user.email, phonenumber: user.phonenumber, institution: user.institution, standard: user.standard } });
         } else {
             return res.status(400).json({ msg: "Password Did not Matched !!" });
         }
@@ -121,15 +121,15 @@ export const userSignin = async (req, res) => {
 
 
 export const fetchParticipants = async (req, res) => {
-    let email=req.query.email;
+    let email = req.query.email;
     console.log(email);
     let participants;
     try {
-        if(email){
+        if (email) {
             console.log("yes got email");
-            participants=await users.find({email:{$regex:`^${email}`}});
-            
-        }else{
+            participants = await users.find({ email: { $regex: `^${email}` } });
+
+        } else {
             participants = await users.find();
         }
         console.log(participants);
@@ -143,7 +143,15 @@ export const fetchParticipants = async (req, res) => {
 
 
 
-export const fetchParticipantsWithEmail=async (req,res)=>{
-    console.log(req.body);
+export const fetchParticipantsWithId = async (req, res) => {
+    const { id } = req.body;
+    try {
+
+        const participant = await users.findOne({ _id: id });
+        return res.status(200).json(participant);
+
+    } catch (error) {
+        return res.status(400).json({ msg: error.message });
+    }
 
 }
