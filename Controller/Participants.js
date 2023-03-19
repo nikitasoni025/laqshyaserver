@@ -144,7 +144,7 @@ export const fetchParticipants = async (req, res) => {
 
 
 export const fetchParticipantsWithId = async (req, res) => {
-    const { id } = req.body;
+    const id = req.query.id;
     console.log(id);
     try {
 
