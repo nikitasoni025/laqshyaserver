@@ -145,9 +145,10 @@ export const fetchParticipants = async (req, res) => {
 
 export const fetchParticipantsWithId = async (req, res) => {
     const { id } = req.body;
+    console.log(id);
     try {
 
-        const participant = await users.findOne({ _id: id });
+        const participant = await users.findById(id);
         return res.status(200).json(participant);
 
     } catch (error) {
