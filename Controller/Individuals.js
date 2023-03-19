@@ -22,16 +22,14 @@ export const individualRegister = async (req, res) => {
 
     try {
 
-        let prefix=`CSGI/LAQ23/${eventid}/`;
-        let count=1;
-
-        function makeUid(prefix){
-            let uid= prefix + count < 9 ? `0${count}` :count;
-            count++;
-            return uid;
+        const prerefistered = await individuals.findOne({userid:id,eventname:eventname});
+        if (prerefistered) {
+            return res.status(400).json({ msg: "You Have Already Registered For This Event" });
         }
+
+        let uid=`CSGI/LAQ23/${eventid}/`+Math.random().toString(36).substring(2, 6);
         const addIndividuals = new individuals({
-            _id:id,fullname, phonenumber, uid:makeUid(prefix), email, institution, standard,eventname,registrationfee,status
+            userid:id,fullname, phonenumber, uid, email, institution, standard,eventname,registrationfee,status
         });
 
         addIndividuals.save().then(() => {

@@ -122,17 +122,15 @@ export const userSignin = async (req, res) => {
 
 export const fetchParticipants = async (req, res) => {
     let email = req.query.email;
-    console.log(email);
+    
     let participants;
     try {
         if (email) {
-            console.log("yes got email");
             participants = await users.find({ email: { $regex: `^${email}` } });
 
         } else {
             participants = await users.find();
         }
-        console.log(participants);
         return res.status(200).json(participants);
 
     } catch (error) {
@@ -145,7 +143,6 @@ export const fetchParticipants = async (req, res) => {
 
 export const fetchParticipantsWithId = async (req, res) => {
     const id = req.query.id;
-    console.log(id);
     try {
 
         const participant = await users.findById(id);

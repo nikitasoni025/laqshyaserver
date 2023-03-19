@@ -1,14 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-
-const Schema=mongoose.Schema;
-
-
-const indiPartSchema=new mongoose.Schema({
-    userid:{
-        type:String,
-        required:true
-    },
+const membersSchema=new mongoose.Schema({
     fullname: {
         type: String,
         required: true,
@@ -38,17 +30,46 @@ const indiPartSchema=new mongoose.Schema({
         required: true,
         default:false
     },
-    eventname: {
+    password: {
         type: String,
         required: true,
+    }
+   
+
+})
+
+
+
+const groupPartSchema=new mongoose.Schema({
+    groupname:{
+        type:String,
+        required:true,
+    },
+    groupid:{
+        type:String,
+        required:true,
+    },
+    members:[membersSchema],
+    eventname:{
+        type:String,
+        required:true,
     },
     registrationfee:{
         type:Number,
-        required:true
-    }
-},{timestamps:true});
+        required:true,
+    },
+    status: {
+        type: Boolean,
+        required: true,
+        default:false
+    },
 
 
-const individuals=new mongoose.model('indiparticipants',indiPartSchema);
 
-export default individuals;
+});
+
+
+const groups=new mongoose.model('groupparticipants',groupPartSchema);
+
+
+export default groups;

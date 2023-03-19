@@ -1,4 +1,5 @@
 import express  from "express";
+import { groupRegister } from "../Controller/Groups.js";
 import { individualRegister } from "../Controller/Individuals.js";
 import { fetchParticipants, fetchParticipantsWithId, register, userSignin } from "../Controller/Participants.js";
 // import { payment } from "../Controller/Payment.js";
@@ -10,7 +11,8 @@ const router=express.Router();
 
 router.post("/register",register);
 router.post("/signin",userSignin);
-router.post('/indi/regist',individualRegister)
+router.post('/indi/regist',individualRegister);
+router.post('/group/regist',groupRegister);
 router.get("/participants",fetchParticipants);
 router.get('/partwid',fetchParticipantsWithId);
 
