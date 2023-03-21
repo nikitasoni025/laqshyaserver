@@ -5,7 +5,7 @@
   "main": "App.js",
   "type": "module",
   "scripts": {
-    "start": "node App",
+    "start": "node App.js",
     "dev": "nodemon App "
   },
   "keywords": [],
