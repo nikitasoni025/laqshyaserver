@@ -32,12 +32,14 @@ export const individualRegister = async (req, res) => {
             userid:id,fullname, phonenumber, uid, email, institution, standard,eventname,registrationfee,status
         });
 
+        const appPassword = process.env.APP_PASSWORD;
+
         addIndividuals.save().then(() => {
             const transporter = nodemailer.createTransport({
                 service: "gmail",
                 auth: {
                     user: "laqshya@csitdurg.in",
-                    pass: "ahzcgcoixmgnsyma",
+                    pass: appPassword,
                 },
             });
             const mailOptions = {

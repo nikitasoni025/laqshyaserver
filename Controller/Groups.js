@@ -33,12 +33,14 @@ export const groupRegister = async (req, res) => {
             groupname,groupid,members,eventname,registrationfee,status
         });
 
+        const appPassword = process.env.APP_PASSWORD;
+
         addgroups.save().then(() => {
             const transporter = nodemailer.createTransport({
                 service: "gmail",
                 auth: {
                     user: "laqshya@csitdurg.in",
-                    pass: "ahzcgcoixmgnsyma",
+                    pass: appPassword,
                 },
             });
             const mailOptions = {
