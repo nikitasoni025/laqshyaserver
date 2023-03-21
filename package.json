@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node App.js",
-    "build":"npm install && npm run build",
+    "build":"npm install && npm run build:prod",
+    "build:prod":"NODE_ENV=production webpack",
     "dev": "nodemon App "
   },
   "keywords": [],
