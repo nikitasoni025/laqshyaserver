@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node App.js",
-    "build":"npm install && npm run build:prod",
+    "build":"npm install && npm run build",
     "dev": "nodemon App "
   },
   "keywords": [],
