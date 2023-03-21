@@ -1,49 +1,62 @@
-import stripe from "stripe";
 import dotenv from "dotenv";
-import payments from "../Model/PaymentModel.js";
-import qrcode from "qrcode";
-import { v4 as uuidv4 } from "uuid";
+import instamojo from "instamojo-nodejs";
+
+
+
+const API_KEY='test_386548e0ac7df0a8720cbc55c85';
+const AUTH_TOKEN='test_1cf398b906fa83f0504ad21d5f6';
+
+instamojo.setKeys(API_KEY,AUTH_TOKEN);
+instamojo.isSandboxMode(true);
 
 
 dotenv.config();
 
-const client = new stripe(process.env.STRIPE_SECRET_KEY);
 
 
 
 export const createPaymentIntent = async (req, res) => {
 
-    const { amount } = req.body;
-    try {
-        const paymentIntent = await client.paymentIntents.create({
-            amount,
-            currency: "INR",
-            payment_method_types: ["upi"],
-            metadata: {
-                integration_check: "upi_payment",
-            }
-        });
-        return res.status(200).json({ msg: "Intent Generated", client_secret: paymentIntent.client_secret });
-    } catch (error) {
-        return res.status(400).json({ msg: "Intent Genration Failed", error: error.message });
+    const { amount,email,phonenumber,fullname} = req.body;
 
-
+    const data={
+        purpose:"Test Payment",
+        amount:amount,
+        buyer_name:fullname,
+        email:email,
+        phone:phonenumber,
+        send_email:true,
+        send_sms:true,
+        redirect_url:'http://localhost:8001/paysuccess',
+        webhook_url:'http://localhost:8001/webhook',
+        allow_repeated_payments:false
     }
+
+    instamojo.createPayment(data,(error,response)=>{
+        if(error){
+            console.log(error);
+        }else{
+            const responseData=JSON.parse(response);
+            console.log(responseData);
+            // res.redirect(responseData);
+        }
+    });
 }
 
-export const generateQrCode = async (req, res) => {
+export const paySuccess = async (req, res) => {
+    res.send('Payment Successfull');
+}
 
-    const { amount, upi_code, client_secret } = req.body;
-    try {
-        const paymentIntent = await client.paymentIntents.retrieve(client_secret);
-        const paymentIntentId = paymentIntent.id;
-        const qrCodeData = await qrcode.toDataURL(
-            `upi://${upi_code}?amount=${amount}`
-        )
+export const webhook =async (req,res)=>{
+    const data=req.body;
 
-    } catch (error) {
+    if(instamojo.verifyWebhookData(JSON.stringify(data),req.headers['x-instamojo-signature'])){
+        console.log('Payment Done');
+        res.status(200).json({msg:"Payment Done"})
+    }else{
+        console.log('Payment Not Verified');
+        res.status(400).json({msg:"Payment Not Verified"});
 
     }
-
 
 }

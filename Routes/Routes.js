@@ -2,7 +2,7 @@ import express  from "express";
 import { groupRegister } from "../Controller/Groups.js";
 import { individualRegister } from "../Controller/Individuals.js";
 import { fetchParticipants, fetchParticipantsWithId, register, userSignin } from "../Controller/Participants.js";
-// import { payment } from "../Controller/Payment.js";
+import { createPaymentIntent, paySuccess, webhook } from "../Controller/Payment.js";
 
 const router=express.Router();
 
@@ -18,7 +18,9 @@ router.get('/partwid',fetchParticipantsWithId);
 
 // Payemnt API Routes
 
-// router.post("/create-upi-payment-intent",createPaymentIntent);
+router.post("/payment",createPaymentIntent);
+router.get("/paysuccess",paySuccess);
+router.post("/webhook",webhook);
 // router.post("/generate-upi-qrcode",generateQrCode);
 // router.post("/confirm-upi-payment-intent",confirmPaymentIntent);
 // router.post("/upi-payment",upiPayment);
