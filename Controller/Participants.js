@@ -17,9 +17,9 @@ dotenv.config();
 export const register = async (req, res) => {
 
 
-    const { fullname, email, phonenumber, institution, standard, password } = req.body;
+    const { fullname, email, phonenumber, institution, standard, password, confirmPassword } = req.body;
 
-    const validatedata = { fullname, email, phonenumber, password, institution, standard };
+    const validatedata = { fullname, email, phonenumber, password, institution, standard, confirmPassword };
     const { error, value } = userValidationSchema.validate(validatedata);
 
     if (error) {

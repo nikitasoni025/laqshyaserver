@@ -28,6 +28,12 @@ const userValidationSchema=Joi.object({
         'string.empty':'Password is Required',
         'any.required':'Password is Required'
     }),
+    confirmPassword:Joi.string().valid(Joi.ref("password")).required().messages({
+        'string.pattern.base':'Password Must Contain Atleast 8 characters, one uppercase letter,one lowercase letter,and one digit',
+        'string.empty':'Password is Required',
+        'any.required':'Password is Required',
+        'any.only':'Confirm Password did not matched with Password'
+    }),
 })
 
 export default userValidationSchema;
