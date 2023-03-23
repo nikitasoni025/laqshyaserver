@@ -126,3 +126,14 @@ export const fetchParticipantsWithId = async (req, res) => {
     }
 
 }
+
+export const fetchParticipantsWithLimit = async (req,res) => {
+    const limit = req.query.limit;
+    try {
+        const participantData = await users.find().limit(limit);
+        return res.status(200).json(participantData);
+
+    } catch (error) {
+        return res.status(400).json({msg:"fetching Failed",error:error.message});
+    }
+}

@@ -74,3 +74,17 @@ export const individualRegister = async (req, res) => {
 
 }
 
+export const getAllIndividuals = async (req, res) =>{
+
+    const limit = req.query.limit || 5;
+    try {
+        const individualData = await individuals.find().limit(limit);
+        return res.status(200).json(individualData);
+
+    } catch (error) {
+        return res.status(400).json({msg:"fetching failes",error:error.message});
+        
+    }
+
+}
+

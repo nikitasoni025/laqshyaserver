@@ -77,7 +77,7 @@ export const groupRegister = async (req, res) => {
 
 export const getAllGroup = async (req, res) => {
     console.log("llll");
-    const limit = req.query.limit || 0;
+    const limit = req.query.limit || 5;
     console.log(limit);
     try {
         const groupsData = await groups.find().limit(limit);        
