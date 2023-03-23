@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import dotenv from 'dotenv';
-import groups from "../Model/GroupPartModel.js";
 import groupValidationSchema from "../Validation/Groupvalidation.js";
+import groups from "../Model/GroupPartModel.js";
 
 
 dotenv.config();
@@ -11,7 +11,7 @@ dotenv.config();
 export const groupRegister = async (req, res) => {
 
 
-    const { groupname,members, eventname,eventid,registrationfee, status } = req.body;
+    const { groupname, members, eventname, eventid, registrationfee, status } = req.body;
 
     const validatedata = { groupname };
     const { error, value } = groupValidationSchema.validate(validatedata);
@@ -23,14 +23,14 @@ export const groupRegister = async (req, res) => {
 
     try {
 
-        const prerefistered = await groups.findOne({groupname:groupname,eventname:eventname});
+        const prerefistered = await groups.findOne({ groupname: groupname, eventname: eventname });
         if (prerefistered) {
             return res.status(400).json({ msg: "You Have Already Registered For This Event" });
         }
 
-        let groupid=`CSGI/LAQ23/${eventid}/`+Math.random().toString(36).substring(2, 6);
+        let groupid = `CSGI/LAQ23/${eventid}/` + Math.random().toString(36).substring(2, 6);
         const addgroups = new groups({
-            groupname,groupid,members,eventname,registrationfee,status
+            groupname, groupid, members, eventname, registrationfee, status
         });
 
         const appPassword = process.env.APP_PASSWORD;
@@ -73,5 +73,17 @@ export const groupRegister = async (req, res) => {
 
     }
 
+}
+
+export const getAllGroup = async (req, res) => {
+    console.log("llll");
+    const limit = req.query.limit || 0;
+    console.log(limit);
+    try {
+        const groupsData = await groups.find().limit(limit);        
+         return res.status(200).json(groupsData);
+    } catch (error) {
+        return res.status(400).json({msg:"Fetching Failed", error:error.message});
+    }
 }
 

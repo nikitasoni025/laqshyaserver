@@ -1,5 +1,5 @@
 import express  from "express";
-import { groupRegister } from "../Controller/Groups.js";
+import { getAllGroup, groupRegister } from "../Controller/Groups.js";
 import { individualRegister } from "../Controller/Individuals.js";
 import { fetchParticipants, fetchParticipantsWithId, register, userSignin } from "../Controller/Participants.js";
 import { createPaymentIntent, paySuccess, webhook } from "../Controller/Payment.js";
@@ -13,6 +13,7 @@ router.post("/register",register);
 router.post("/signin",userSignin);
 router.post('/indi/regist',individualRegister);
 router.post('/group/regist',groupRegister);
+router.get('/groups',getAllGroup);
 router.get("/participants",fetchParticipants);
 router.get('/partwid',fetchParticipantsWithId);
 
