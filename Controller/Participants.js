@@ -127,13 +127,66 @@ export const fetchParticipantsWithId = async (req, res) => {
 
 }
 
-export const fetchParticipantsWithLimit = async (req,res) => {
+export const fetchParticipantsWithLimit = async (req, res) => {
     const limit = req.query.limit;
+    const page = req.query.page;
+    const status = req.query.status || false;
+
+    const startIndex = (page - 1) * limit;
     try {
-        const participantData = await users.find().limit(limit);
-        return res.status(200).json(participantData);
+        const count = await users.countDocuments();
+        const participantData = await users.find({status:status}).skip(startIndex).limit(limit);
+        return res.status(200).json({data:participantData, totalCount:count});
 
     } catch (error) {
-        return res.status(400).json({msg:"fetching Failed",error:error.message});
+        return res.status(400).json({ msg: "fetching Failed", error: error.message });
     }
+}
+
+
+
+
+// DELETE USER
+
+export const deleteUser=async(req,res)=>{
+    console.log(req.params.id);
+    try {
+        const user=await users.findById(req.params.id);
+        console.log(user);
+        
+        if(user){
+            await user.deleteOne();
+            return res.status(200).json({msg:"User Deleted"});
+        }else{
+            return res.status(400).json({msg:"User Not Found"});
+            
+        }
+    } catch (error) {
+        console.log(error);
+        
+        // return res.status(400).json({msg:"Deletion Failed From The Server",error:error.message});
+    }
+
+}
+
+export const updateUser=async(req,res)=>{
+    console.log(req.query);
+    try {
+        const userid=req.query.id;
+        const updateData=req.query.updateData;
+        console.log(updateData);
+
+        const result=await users.findByIdAndUpdate(userid,updateData,{new:true})
+        if(!result){
+            return res.status(400).json({msg:"User not Found"});
+        }
+
+        return res.status(200).json({msg:'Uspades',result:result})
+        
+    } catch (error) {
+        return res.status(400).json({msg:'Uspades Falotro'})
+        
+    }
+
+
 }

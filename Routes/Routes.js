@@ -1,7 +1,7 @@
 import express  from "express";
 import { getAllGroup, groupRegister } from "../Controller/Groups.js";
 import { getAllIndividuals, individualRegister } from "../Controller/Individuals.js";
-import { fetchParticipants, fetchParticipantsWithId, fetchParticipantsWithLimit, register, userSignin } from "../Controller/Participants.js";
+import { deleteUser, fetchParticipants, fetchParticipantsWithId, fetchParticipantsWithLimit, register, updateUser, userSignin } from "../Controller/Participants.js";
 import { createPaymentIntent, paySuccess, webhook } from "../Controller/Payment.js";
 
 const router=express.Router();
@@ -24,8 +24,15 @@ router.get("/individuals",getAllIndividuals)
 router.post("/payment",createPaymentIntent);
 router.get("/paysuccess",paySuccess);
 router.post("/webhook",webhook);
-// router.post("/generate-upi-qrcode",generateQrCode);
-// router.post("/confirm-upi-payment-intent",confirmPaymentIntent);
-// router.post("/upi-payment",upiPayment);
+
+
+// Delete Routes
+router.delete('/user/delete/:id',deleteUser);
+
+
+
+
+// UPDATE ROUTES
+router.put('/user/update/',updateUser);
 
 export default router;
