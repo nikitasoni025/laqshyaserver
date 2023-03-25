@@ -1,6 +1,6 @@
 import express  from "express";
-import { getAllGroup, groupRegister } from "../Controller/Groups.js";
-import { getAllIndividuals, individualRegister } from "../Controller/Individuals.js";
+import { deleteGroup, getAllGroup, groupRegister, updateGroup } from "../Controller/Groups.js";
+import { deleteIndividual, getAllIndividuals, individualRegister, updateIndividual } from "../Controller/Individuals.js";
 import { deleteUser, fetchParticipants, fetchParticipantsWithId, fetchParticipantsWithLimit, register, updateUser, userSignin } from "../Controller/Participants.js";
 import { createPaymentIntent, paySuccess, webhook } from "../Controller/Payment.js";
 
@@ -28,11 +28,15 @@ router.post("/webhook",webhook);
 
 // Delete Routes
 router.delete('/user/delete/:id',deleteUser);
+router.delete('/indi/delete/:id',deleteIndividual);
+router.delete('/group/delete/:id',deleteGroup);
 
 
 
 
 // UPDATE ROUTES
 router.put('/user/update/',updateUser);
+router.put('/indi/update/',updateIndividual);
+router.put('/group/update/',updateGroup);
 
 export default router;

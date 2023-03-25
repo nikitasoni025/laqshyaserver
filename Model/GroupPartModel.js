@@ -33,7 +33,8 @@ const membersSchema=new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    }
+    },
+   
    
 
 })
@@ -59,6 +60,11 @@ const groupPartSchema=new mongoose.Schema({
         required:true,
     },
     status: {
+        type: Boolean,
+        required: true,
+        default:false
+    },
+    selected: {
         type: Boolean,
         required: true,
         default:false

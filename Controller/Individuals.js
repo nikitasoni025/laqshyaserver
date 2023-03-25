@@ -77,14 +77,62 @@ export const individualRegister = async (req, res) => {
 export const getAllIndividuals = async (req, res) =>{
 
     const limit = req.query.limit || 5;
+    const page = req.query.page;
+    const status = req.query.status || false;
+
+    const startIndex = (page - 1) * limit;
     try {
-        const individualData = await individuals.find().limit(limit);
-        return res.status(200).json(individualData);
+        const count = await individuals.countDocuments();
+        const individualData = await individuals.find({status:status}).skip(startIndex).limit(limit);
+        return res.status(200).json({data:individualData, totalCount:count});
 
     } catch (error) {
         return res.status(400).json({msg:"fetching failes",error:error.message});
         
     }
+
+}
+
+export const deleteIndividual=async(req,res)=>{
+    console.log(req.params.id);
+    try {
+        const indi=await individuals.findById(req.params.id);
+        console.log(indi);
+        
+        if(indi){
+            await indi.deleteOne();
+            return res.status(200).json({msg:"User Deleted"});
+        }else{
+            return res.status(400).json({msg:"User Not Found"});
+            
+        }
+    } catch (error) {
+        console.log(error);
+        
+        // return res.status(400).json({msg:"Deletion Failed From The Server",error:error.message});
+    }
+
+}
+
+export const updateIndividual=async(req,res)=>{
+    console.log(req.query);
+    try {
+        const userid=req.query.id;
+        const updateData=req.query.updateData;
+        console.log(updateData);
+
+        const result=await individuals.findByIdAndUpdate(userid,updateData,{new:true})
+        if(!result){
+            return res.status(400).json({msg:"User not Found"});
+        }
+
+        return res.status(200).json({msg:'Uspades',result:result})
+        
+    } catch (error) {
+        return res.status(400).json({msg:'Uspades Falotro'})
+        
+    }
+
 
 }
 

@@ -45,7 +45,12 @@ const indiPartSchema=new mongoose.Schema({
     registrationfee:{
         type:Number,
         required:true
-    }
+    },
+    selected: {
+        type: Boolean,
+        required: true,
+        default:false
+    },
 },{timestamps:true});
 
 
