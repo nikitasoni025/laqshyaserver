@@ -4,11 +4,11 @@ import "./DataBase/db.js";
 import router from "./Routes/Routes.js";
 import bodyParser from "body-parser";
 import cors from "cors";
+dotenv.config();
 
 
 // CRATING AN EXPRESS APP
 const app=express();
-dotenv.config();
 app.use(cors());
 app.use(bodyParser.json({extended:true}));
 app.use(bodyParser.urlencoded({extended:true}));

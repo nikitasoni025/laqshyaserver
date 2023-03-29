@@ -1,4 +1,5 @@
 import express  from "express";
+import { adminChecksession, adminLogout, adminregistration, adminSignin, getAllAdmins, getLoggedInAdmin, updateAdmin } from "../Controller/Admins.js";
 import { deleteGroup, getAllGroup, groupRegister, updateGroup } from "../Controller/Groups.js";
 import { deleteIndividual, getAllIndividuals, individualRegister, updateIndividual } from "../Controller/Individuals.js";
 import { deleteUser, fetchParticipants, fetchParticipantsWithId, fetchParticipantsWithLimit, register, updateUser, userSignin } from "../Controller/Participants.js";
@@ -38,5 +39,15 @@ router.delete('/group/delete/:id',deleteGroup);
 router.put('/user/update/',updateUser);
 router.put('/indi/update/',updateIndividual);
 router.put('/group/update/',updateGroup);
+
+
+// Admin Session Routes
+router.post('/admin/signup',adminregistration)
+router.post('/admin/login',adminSignin);
+router.get('/admin/check-session',adminChecksession);
+router.post('/admin/logout',adminLogout);
+router.get('/admin/get',getLoggedInAdmin);
+router.get('/admin/all',getAllAdmins);
+router.put('/admin/update',updateAdmin);
 
 export default router;

@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
     }
    
 
-})
+});
 
 const users=new mongoose.model("participants",userSchema);
 

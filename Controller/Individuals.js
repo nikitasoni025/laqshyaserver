@@ -79,11 +79,12 @@ export const getAllIndividuals = async (req, res) =>{
     const limit = req.query.limit || 5;
     const page = req.query.page;
     const status = req.query.status || false;
+    const selected=req.query.selected || false
 
     const startIndex = (page - 1) * limit;
     try {
         const count = await individuals.countDocuments();
-        const individualData = await individuals.find({status:status}).skip(startIndex).limit(limit);
+        const individualData = await individuals.find({status:status,selected:selected}).skip(startIndex).limit(limit);
         return res.status(200).json({data:individualData, totalCount:count});
 
     } catch (error) {
