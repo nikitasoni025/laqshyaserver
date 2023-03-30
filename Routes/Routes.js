@@ -4,6 +4,9 @@ import { deleteGroup, getAllGroup, groupRegister, updateGroup } from "../Control
 import { deleteIndividual, getAllIndividuals, individualRegister, updateIndividual } from "../Controller/Individuals.js";
 import { deleteUser, fetchParticipants, fetchParticipantsWithId, fetchParticipantsWithLimit, register, updateUser, userSignin } from "../Controller/Participants.js";
 import { createPaymentIntent, paySuccess, webhook } from "../Controller/Payment.js";
+import { uploadImage } from "../Controller/upload.js";
+import upload from "../Middleware/Upload.js";
+
 
 const router=express.Router();
 
@@ -49,5 +52,10 @@ router.post('/admin/logout',adminLogout);
 router.get('/admin/get',getLoggedInAdmin);
 router.get('/admin/all',getAllAdmins);
 router.put('/admin/update',updateAdmin);
+
+
+// upload routes
+router.post('/image/upload',upload.single('image'),uploadImage)
+
 
 export default router;
