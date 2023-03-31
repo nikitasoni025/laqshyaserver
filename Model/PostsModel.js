@@ -5,7 +5,6 @@ const postSchema=new mongoose.Schema({
     title:{
         type:String,
         required:true,
-        unique:true
     },
     description:{
         type:String,
@@ -20,6 +19,10 @@ const postSchema=new mongoose.Schema({
         required:true
     },
     category:{
+        type:String,
+        required:true
+    },
+    imgkey:{
         type:String,
         required:true
     },

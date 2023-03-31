@@ -7,7 +7,7 @@ export const adminregistration = async (req, res) => {
 
     const { fullname, email, phonenumber, password, role } = req.body;
 
-    const validatedata = { fullname, email, phonenumber, password };
+    const validatedata = { fullname, email, phonenumber, password, role };
     const { error, value } = adminValidationSchema.validate(validatedata);
 
     if (error) {
@@ -18,7 +18,7 @@ export const adminregistration = async (req, res) => {
     try {
         const preuser = await admins.findOne({ email: email });
         if (preuser) {
-            return res.status(400).json({ msg: "User is Already present" });
+            return res.status(400).json({ msg: "Admin is Already present" });
         }
         else {
 
@@ -28,7 +28,7 @@ export const adminregistration = async (req, res) => {
             });
 
             addadmin.save();
-            return res.status(200).json({ msg: "Registered Successfully" });
+            return res.status(200).json({ msg: "Admin Added Successfully" });
 
         }
     } catch (error) {
@@ -94,11 +94,11 @@ export const adminLogout = async (req, res) => {
 export const getLoggedInAdmin = async (req, res) => {
     const userid = req.query.id;
     try {
-        const admin=await admins.findById(userid);
+        const admin = await admins.findById(userid);
         return res.status(200).json(admin);
     } catch (error) {
         return res.status(400).json({ msg: "fetching failes", error: error.message });
-        
+
     }
 
 }
@@ -119,20 +119,40 @@ export const getAllAdmins = async (req, res) => {
 
 export const updateAdmin = async (req, res) => {
     try {
-        const userid=req.query.id;
-        const updateData=req.query.updateData;
+        const userid = req.query.id;
+        const updateData = req.query.updateData;
 
-        const result=await admins.findByIdAndUpdate(userid,updateData,{new:true});
-        if(!result){
-            return res.status(400).json({msg:"User not Found"});
+        const result = await admins.findByIdAndUpdate(userid, updateData, { new: true });
+        if (!result) {
+            return res.status(400).json({ msg: "User not Found" });
         }
 
-        return res.status(200).json({msg:'Uspades',result:result});
-        
+        return res.status(200).json({ msg: 'Uspades', result: result });
+
     } catch (error) {
-        return res.status(400).json({msg:'Uspades Falotro'});
-        
+        return res.status(400).json({ msg: 'Uspades Falotro' });
+
     }
 
+
+}
+
+export const deleteAdmin = async (req, res) => {
+    try {
+        const user = await admins.findById(req.params.id);
+
+        if (user) {
+            await user.deleteOne();
+            return res.status(200).json({ msg: "User Deleted" });
+        } else {
+            return res.status(400).json({ msg: "User Not Found" });
+
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ msg: "Deletion Failed From The Server", error: error.message });
+
+
+    }
 
 }

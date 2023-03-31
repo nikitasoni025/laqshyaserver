@@ -1,11 +1,12 @@
 import express  from "express";
-import { adminChecksession, adminLogout, adminregistration, adminSignin, getAllAdmins, getLoggedInAdmin, updateAdmin } from "../Controller/Admins.js";
+import { adminChecksession, adminLogout, adminregistration, adminSignin, deleteAdmin, getAllAdmins, getLoggedInAdmin, updateAdmin } from "../Controller/Admins.js";
 import { deleteGroup, getAllGroup, groupRegister, updateGroup } from "../Controller/Groups.js";
 import { deleteIndividual, getAllIndividuals, individualRegister, updateIndividual } from "../Controller/Individuals.js";
 import { deleteUser, fetchParticipants, fetchParticipantsWithId, fetchParticipantsWithLimit, register, updateUser, userSignin } from "../Controller/Participants.js";
 import { createPaymentIntent, paySuccess, webhook } from "../Controller/Payment.js";
-import { uploadImage } from "../Controller/upload.js";
-import upload from "../Middleware/Upload.js";
+import { createPosts, deletePost, fetchOnePost, fetchPostswithLimit } from "../Controller/Posts.js";
+import { deleteImageFromAws, uploadImage } from "../Controller/upload.js";
+import uploadMiddleware from "../Middleware/Upload.js";
 
 
 const router=express.Router();
@@ -52,10 +53,19 @@ router.post('/admin/logout',adminLogout);
 router.get('/admin/get',getLoggedInAdmin);
 router.get('/admin/all',getAllAdmins);
 router.put('/admin/update',updateAdmin);
+router.delete('/admin/delete/:id',deleteAdmin);
 
 
 // upload routes
-router.post('/image/upload',upload.single('image'),uploadImage)
+router.post('/image/upload',uploadMiddleware,uploadImage);
+router.delete('/imageaws/delete/:id',deleteImageFromAws);
+
+
+// Post Routes
+router.post('/addpost',createPosts);
+router.get('/posts',fetchPostswithLimit);
+router.delete('/post/delete/:id',deletePost);
+router.get('/mypost/:id',fetchOnePost);
 
 
 export default router;

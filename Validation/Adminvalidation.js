@@ -19,7 +19,11 @@ const adminValidationSchema=Joi.object({
         'string.pattern.base':'Password Must Contain Atleast 8 characters, one uppercase letter,one lowercase letter,and one digit',
         'string.empty':'Password is Required',
         'any.required':'Password is Required'
-    })
+    }),
+    role:Joi.string().required().messages({
+        'string.empty':'Full Name Is Required',
+        'any.required':'Full Name Is Required'
+    }),
 })
 
 export default adminValidationSchema;

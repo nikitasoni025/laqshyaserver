@@ -149,10 +149,8 @@ export const fetchParticipantsWithLimit = async (req, res) => {
 // DELETE USER
 
 export const deleteUser=async(req,res)=>{
-    console.log(req.params.id);
     try {
         const user=await users.findById(req.params.id);
-        console.log(user);
         
         if(user){
             await user.deleteOne();
@@ -163,18 +161,18 @@ export const deleteUser=async(req,res)=>{
         }
     } catch (error) {
         console.log(error);
+        return res.status(400).json({msg:"Deletion Failed From The Server",error:error.message});
+
         
-        // return res.status(400).json({msg:"Deletion Failed From The Server",error:error.message});
     }
 
 }
 
 export const updateUser=async(req,res)=>{
-    console.log(req.query);
+    
     try {
         const userid=req.query.id;
         const updateData=req.query.updateData;
-        console.log(updateData);
 
         const result=await users.findByIdAndUpdate(userid,updateData,{new:true})
         if(!result){
