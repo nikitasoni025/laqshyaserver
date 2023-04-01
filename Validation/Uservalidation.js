@@ -5,6 +5,10 @@ const userValidationSchema=Joi.object({
         'string.empty':'Full Name Is Required',
         'any.required':'Full Name Is Required'
     }),
+    stream:Joi.string().required().messages({
+        'string.empty':'Stream  Is Required',
+        'any.required':'Stream  Is Required'
+    }),
     email:Joi.string().email().required().messages({
         'string.email':'Invalid email Address',
         'string.empty':'Email Is Required',
@@ -18,10 +22,6 @@ const userValidationSchema=Joi.object({
     institution:Joi.string().required().messages({
         'string.empty':'Institution  Is Required',
         'any.required':'Institution  Is Required'
-    }),
-    standard:Joi.string().required().messages({
-        'string.empty':'Standard  Is Required',
-        'any.required':'Standard  Is Required'
     }),
     password:Joi.string().pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')).required().messages({
         'string.pattern.base':'Password Must Contain Atleast 8 characters, one uppercase letter,one lowercase letter,and one digit',

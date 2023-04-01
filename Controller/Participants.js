@@ -17,9 +17,9 @@ dotenv.config();
 export const register = async (req, res) => {
 
 
-    const { fullname, email, phonenumber, institution, standard, password, confirmPassword } = req.body;
+    const { fullname, email, phonenumber, institution, password, confirmPassword,stream } = req.body;
 
-    const validatedata = { fullname, email, phonenumber, password, institution, standard, confirmPassword };
+    const validatedata = { fullname, email, phonenumber, password, institution, confirmPassword ,stream};
     const { error, value } = userValidationSchema.validate(validatedata);
 
     if (error) {
@@ -37,7 +37,7 @@ export const register = async (req, res) => {
             const hashedpassword = await bcrypt.hash(password, 10);
             const uid = "UID" + Math.random().toString(36).substring(2, 6)
             const adduser = new users({
-                fullname, phonenumber, uid, email, password: hashedpassword, institution, standard,
+                fullname, phonenumber, uid, email, password: hashedpassword, institution,stream
             });
 
             adduser.save();

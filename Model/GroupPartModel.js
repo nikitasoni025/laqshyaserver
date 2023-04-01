@@ -21,9 +21,8 @@ const membersSchema=new mongoose.Schema({
         type: String,
         required: true,
     },
-    standard: {
+    stream: {
         type: String,
-        required: true,
     },
     status: {
         type: Boolean,

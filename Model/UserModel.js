@@ -21,11 +21,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    institution: {
-        type: String,
-        required: true,
+    stream:{
+        type:String,
+        required:true,
     },
-    standard: {
+    institution: {
         type: String,
         required: true,
     },
