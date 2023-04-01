@@ -47,6 +47,7 @@ const upload = multer({
 const uploadMiddleware = (req, res, next) => {
   upload.single('file')(req, res, function (err) {
     if (err) {
+      console.log(err);
       if (err.code === 'LIMIT_FILE_SIZE') {
         return res.status(400).json({ msg: 'File size should not exceed 2MB' });
       } else if (err.message === 'Invalid file type. Only PNG, JPEG and MP4 files are allowed.') {
