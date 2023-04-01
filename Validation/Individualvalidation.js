@@ -19,9 +19,9 @@ const individualValidationSchema=Joi.object({
         'string.empty':'Institution  Is Required',
         'any.required':'Institution  Is Required'
     }),
-    standard:Joi.string().required().messages({
-        'string.empty':'Standard  Is Required',
-        'any.required':'Standard  Is Required'
+    stream:Joi.string().required().messages({
+        'string.empty':'Stream  Is Required',
+        'any.required':'Stream  Is Required'
     }),
     eventname:Joi.string().required().messages({
         'string.empty':'Eventname Is Empty Contact To Developer',

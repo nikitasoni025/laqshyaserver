@@ -10,9 +10,9 @@ dotenv.config();
 export const individualRegister = async (req, res) => {
 
 
-    const { id, fullname, email, phonenumber, institution, standard, eventname,eventid,registrationfee, status } = req.body;
+    const { id, fullname, email, phonenumber, institution, stream, eventname,eventid,registrationfee, status } = req.body;
 
-    const validatedata = { fullname, email, phonenumber, institution, standard, eventname, registrationfee };
+    const validatedata = { fullname, email, phonenumber, institution, stream, eventname, registrationfee };
     const { error, value } = individualValidationSchema.validate(validatedata);
 
     if (error) {
@@ -29,7 +29,7 @@ export const individualRegister = async (req, res) => {
 
         let uid=`CSGI/LAQ23/${eventid}/`+Math.random().toString(36).substring(2, 6);
         const addIndividuals = new individuals({
-            userid:id,fullname, phonenumber, uid, email, institution, standard,eventname,registrationfee,status
+            userid:id,fullname, phonenumber, uid, email, institution, stream,eventname,registrationfee,status
         });
 
         const appPassword = process.env.APP_PASSWORD;

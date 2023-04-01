@@ -70,7 +70,7 @@ export const userSignin = async (req, res) => {
 
         if (match) {
             console.log("matched");
-            const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_KEY, { expiresIn: "15m" });
+            const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_KEY, { expiresIn: "60m" });
             const refreshToken = jwt.sign(user.toJSON(), process.env.REFRESH_TOKEN_KEY);
 
             const addToken = new tokens({ token: refreshToken });
