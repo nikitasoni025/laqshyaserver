@@ -1,7 +1,7 @@
 import express  from "express";
 import { adminChecksession, adminLogout, adminregistration, adminSignin, deleteAdmin, getAllAdmins, getLoggedInAdmin, updateAdmin } from "../Controller/Admins.js";
 import { deleteGroup, getAllGroup, getAllGroupsWithUser, groupRegister, updateGroup } from "../Controller/Groups.js";
-import { deleteIndividual, getAllIndividuals, individualRegister, updateIndividual } from "../Controller/Individuals.js";
+import { deleteIndividual, getAllIndividuals, getAllIndiWithUser, individualRegister, updateIndividual } from "../Controller/Individuals.js";
 import { deleteUser, fetchParticipants, fetchParticipantsWithId, fetchParticipantsWithLimit, register, updateUser, userSignin } from "../Controller/Participants.js";
 import { createPaymentIntent, paySuccess, webhook } from "../Controller/Payment.js";
 import { createPosts, deletePost, fetchOnePost, fetchPostswithLimit } from "../Controller/Posts.js";
@@ -21,7 +21,9 @@ router.get('/groups/user/',getAllGroupsWithUser);
 router.get("/participants",fetchParticipants);
 router.get("/paticipantsData",fetchParticipantsWithLimit);
 router.get('/partwid',fetchParticipantsWithId);
-router.get("/individuals",getAllIndividuals)
+router.get("/individuals",getAllIndividuals);
+router.get('/individuals/user',getAllIndiWithUser);
+
 
 // Payemnt API Routes
 

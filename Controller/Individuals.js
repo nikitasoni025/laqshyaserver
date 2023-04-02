@@ -137,3 +137,15 @@ export const updateIndividual=async(req,res)=>{
 
 }
 
+export const getAllIndiWithUser = async (req, res) => {
+    const id = req.query.id;
+    try {
+
+        const indiData= await individuals.find({userid:id});
+        return res.status(200).json(indiData);
+
+    } catch (error) {
+        return res.status(400).json({ msg: error.message });
+    }
+}
+
