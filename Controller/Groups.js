@@ -84,7 +84,6 @@ export const getAllGroup = async (req, res) => {
     const selected = req.query.selected || false
 
     const startIndex = (page - 1) * limit;
-    console.log(limit);
     try {
         const count = await groups.countDocuments();
         const groupsData = await groups.find({ status: status, selected: selected }).skip(startIndex).limit(limit);
@@ -95,10 +94,8 @@ export const getAllGroup = async (req, res) => {
 }
 
 export const deleteGroup = async (req, res) => {
-    console.log(req.params.id);
     try {
         const group = await groups.findById(req.params.id);
-        console.log(group);
 
         if (group) {
             await group.deleteOne();
@@ -116,11 +113,9 @@ export const deleteGroup = async (req, res) => {
 }
 
 export const updateGroup = async (req, res) => {
-    console.log(req.query);
     try {
         const userid = req.query.id;
         const updateData = req.query.updateData;
-        console.log(updateData);
 
         const result = await groups.findByIdAndUpdate(userid, updateData, { new: true });
         if (!result) {

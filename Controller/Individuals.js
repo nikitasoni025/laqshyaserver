@@ -95,10 +95,8 @@ export const getAllIndividuals = async (req, res) =>{
 }
 
 export const deleteIndividual=async(req,res)=>{
-    console.log(req.params.id);
     try {
         const indi=await individuals.findById(req.params.id);
-        console.log(indi);
         
         if(indi){
             await indi.deleteOne();
@@ -116,11 +114,9 @@ export const deleteIndividual=async(req,res)=>{
 }
 
 export const updateIndividual=async(req,res)=>{
-    console.log(req.query);
     try {
         const userid=req.query.id;
         const updateData=req.query.updateData;
-        console.log(updateData);
 
         const result=await individuals.findByIdAndUpdate(userid,updateData,{new:true})
         if(!result){

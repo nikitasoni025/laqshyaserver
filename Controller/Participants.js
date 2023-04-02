@@ -59,7 +59,6 @@ export const userSignin = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await users.findOne({ email: email });
-    console.log(user);
 
     if (!user) {
         return res.status(400).json({ mag: "User Not Found" });
@@ -69,7 +68,6 @@ export const userSignin = async (req, res) => {
         const match = await bcrypt.compare(password, user.password);
 
         if (match) {
-            console.log("matched");
             const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_KEY, { expiresIn: "60m" });
             const refreshToken = jwt.sign(user.toJSON(), process.env.REFRESH_TOKEN_KEY);
 

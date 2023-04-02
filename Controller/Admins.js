@@ -73,7 +73,6 @@ export const adminSignin = async (req, res) => {
 
 
 export const adminChecksession = async (req, res) => {
-    console.log("req.session", req.session.islogin);
     if (req.session.islogin) {
         return res.status(200).json({ msg: "User Is Logged In" });
     }
