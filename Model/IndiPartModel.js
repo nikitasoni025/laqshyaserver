@@ -50,6 +50,10 @@ const indiPartSchema=new mongoose.Schema({
         required: true,
         default:false
     },
+    transactionid:{
+        type:String,
+        default:'nil'
+    }
 },{timestamps:true});
 
 

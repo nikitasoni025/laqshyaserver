@@ -4,6 +4,7 @@ import groupValidationSchema from "../Validation/Groupvalidation.js";
 import groups from "../Model/GroupPartModel.js";
 
 
+
 dotenv.config();
 
 
@@ -76,63 +77,76 @@ export const groupRegister = async (req, res) => {
 }
 
 export const getAllGroup = async (req, res) => {
-    
+
     const limit = req.query.limit || 5;
     const page = req.query.page;
     const status = req.query.status || false;
-    const selected=req.query.selected || false
+    const selected = req.query.selected || false
 
     const startIndex = (page - 1) * limit;
     console.log(limit);
     try {
         const count = await groups.countDocuments();
-        const groupsData = await groups.find({status:status,selected:selected}).skip(startIndex).limit(limit);       
-         return res.status(200).json({data:groupsData, totalCount:count});
+        const groupsData = await groups.find({ status: status, selected: selected }).skip(startIndex).limit(limit);
+        return res.status(200).json({ data: groupsData, totalCount: count });
     } catch (error) {
-        return res.status(400).json({msg:"Fetching Failed", error:error.message});
+        return res.status(400).json({ msg: "Fetching Failed", error: error.message });
     }
 }
 
-export const deleteGroup=async(req,res)=>{
+export const deleteGroup = async (req, res) => {
     console.log(req.params.id);
     try {
-        const group=await groups.findById(req.params.id);
+        const group = await groups.findById(req.params.id);
         console.log(group);
-        
-        if(group){
+
+        if (group) {
             await group.deleteOne();
-            return res.status(200).json({msg:"Group Deleted"});
-        }else{
-            return res.status(400).json({msg:"Group Not Found"});
-            
+            return res.status(200).json({ msg: "Group Deleted" });
+        } else {
+            return res.status(400).json({ msg: "Group Not Found" });
+
         }
     } catch (error) {
         console.log(error);
-        
+
         // return res.status(400).json({msg:"Deletion Failed From The Server",error:error.message});
     }
 
 }
 
-export const updateGroup=async(req,res)=>{
+export const updateGroup = async (req, res) => {
     console.log(req.query);
     try {
-        const userid=req.query.id;
-        const updateData=req.query.updateData;
+        const userid = req.query.id;
+        const updateData = req.query.updateData;
         console.log(updateData);
 
-        const result=await groups.findByIdAndUpdate(userid,updateData,{new:true});
-        if(!result){
-            return res.status(400).json({msg:"User not Found"});
+        const result = await groups.findByIdAndUpdate(userid, updateData, { new: true });
+        if (!result) {
+            return res.status(400).json({ msg: "User not Found" });
         }
 
-        return res.status(200).json({msg:'Uspades',result:result});
-        
+        return res.status(200).json({ msg: 'Uspades', result: result });
+
     } catch (error) {
-        return res.status(400).json({msg:'Uspades Falotro'});
-        
+        return res.status(400).json({ msg: 'Uspades Falotro' });
+
     }
 
 
+}
+
+
+export const getAllGroupsWithUser = async (req, res) => {
+    const id = req.query.id;
+    try {
+
+        const groupsPresent = await groups.find({members: { $elemMatch: { _id: id } }});
+        return res.status(200).json(groupsPresent);
+
+    } catch (error) {
+        return res.status(400).json({ msg: error.message });
+    }
 }
 

@@ -49,6 +49,10 @@ const groupPartSchema=new mongoose.Schema({
         type:String,
         required:true,
     },
+    transactionid:{
+        type:String,
+        default:'nil'
+    },
     members:[membersSchema],
     eventname:{
         type:String,

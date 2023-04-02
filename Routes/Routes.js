@@ -1,6 +1,6 @@
 import express  from "express";
 import { adminChecksession, adminLogout, adminregistration, adminSignin, deleteAdmin, getAllAdmins, getLoggedInAdmin, updateAdmin } from "../Controller/Admins.js";
-import { deleteGroup, getAllGroup, groupRegister, updateGroup } from "../Controller/Groups.js";
+import { deleteGroup, getAllGroup, getAllGroupsWithUser, groupRegister, updateGroup } from "../Controller/Groups.js";
 import { deleteIndividual, getAllIndividuals, individualRegister, updateIndividual } from "../Controller/Individuals.js";
 import { deleteUser, fetchParticipants, fetchParticipantsWithId, fetchParticipantsWithLimit, register, updateUser, userSignin } from "../Controller/Participants.js";
 import { createPaymentIntent, paySuccess, webhook } from "../Controller/Payment.js";
@@ -19,6 +19,7 @@ router.post("/signin",userSignin);
 router.post('/indi/regist',individualRegister);
 router.post('/group/regist',groupRegister);
 router.get('/groups',getAllGroup);
+router.get('/groups/user/',getAllGroupsWithUser);
 router.get("/participants",fetchParticipants);
 router.get("/paticipantsData",fetchParticipantsWithLimit);
 router.get('/partwid',fetchParticipantsWithId);
