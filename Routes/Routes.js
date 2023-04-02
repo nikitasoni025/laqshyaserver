@@ -58,8 +58,6 @@ router.delete('/admin/delete/:id',deleteAdmin);
 
 
 // upload routes
-router.post('/image/upload',uploadMiddleware,uploadImage);
-router.delete('/imageaws/delete/:id',deleteImageFromAws);
 
 
 // Post Routes
