@@ -5,6 +5,7 @@ import { deleteIndividual, getAllIndividuals, getAllIndiWithUser, individualRegi
 import { deleteUser, fetchParticipants, fetchParticipantsWithId, fetchParticipantsWithLimit, register, updateUser, userSignin } from "../Controller/Participants.js";
 import { createPaymentIntent, paySuccess, webhook } from "../Controller/Payment.js";
 import { createPosts, deletePost, fetchOnePost, fetchPostswithLimit } from "../Controller/Posts.js";
+import { deleteImageFromImkit, uploadImageToImageKIt } from "../Controller/upload.js";
 
 
 const router=express.Router();
@@ -58,6 +59,8 @@ router.delete('/admin/delete/:id',deleteAdmin);
 
 
 // upload routes
+router.post('/image/upload',uploadImageToImageKIt);
+router.delete('/imageimk/delete/:id',deleteImageFromImkit);
 
 
 // Post Routes
