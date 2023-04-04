@@ -149,7 +149,7 @@ export const deleteAdmin = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ msg: "Deletion Failed From The Server", error: error.message });
+        return res.status(400).json({ msg: "Deletion Failed From The Server !!!", error: error.message });
 
 
     }
