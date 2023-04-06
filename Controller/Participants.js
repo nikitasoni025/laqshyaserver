@@ -61,7 +61,7 @@ export const userSignin = async (req, res) => {
     const user = await users.findOne({ email: email });
 
     if (!user) {
-        return res.status(400).json({ mag: "User Not Found" });
+        return res.status(400).json({ msg: "User Not Found !! Recheck Your Email ID" });
     }
 
     try {
@@ -70,11 +70,6 @@ export const userSignin = async (req, res) => {
         if (match) {
             const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_KEY, { expiresIn: "60m" });
             const refreshToken = jwt.sign(user.toJSON(), process.env.REFRESH_TOKEN_KEY);
-
-            const addToken = new tokens({ token: refreshToken });
-
-            await addToken.save();
-
             return res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken, data: { id: user._id, name: user.fullname, email: user.email, phonenumber: user.phonenumber, institution: user.institution, standard: user.standard } });
         } else {
             return res.status(400).json({ msg: "Password Did not Matched !!" });
