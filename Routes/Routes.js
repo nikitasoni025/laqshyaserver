@@ -6,7 +6,6 @@ import { deleteUser, fetchParticipants, fetchParticipantsWithId, fetchParticipan
 import { createPaymentIntent, paySuccess, webhook } from "../Controller/Payment.js";
 import { createPosts, deletePost, fetchOnePost, fetchPostswithLimit } from "../Controller/Posts.js";
 import { deleteImageFromImkit, uploadImageToImageKIt } from "../Controller/upload.js";
-import { forgotPassword, resetPassword } from "../Controller/Forgotpass.js";
 
 
 const router=express.Router();
@@ -70,9 +69,6 @@ router.get('/posts',fetchPostswithLimit);
 router.delete('/post/delete/:id',deletePost);
 router.get('/mypost/:id',fetchOnePost);
 
-// Forgot Password Routes
-router.post('/forgot/password',forgotPassword);
-router.post('/reset/password',resetPassword);
 
 
 export default router;
