@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 
 
+
+
+
 const postSchema=new mongoose.Schema({
     title:{
         type:String,
@@ -10,10 +13,7 @@ const postSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    picture:{
-        type:String,
-        required:true
-    },
+    picture:[String],
     username:{
         type:String,
         required:true
